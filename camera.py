@@ -18,7 +18,7 @@ class Camera:
         if mode == CameraMode.ORBIT:
             self._calculate_orbit_params()
         
-        self.speed = 5.0
+        self.speed = 2.5
         self.sensitivity = 0.1 # sensitivity for free rotate
 
         self.fov = fov
