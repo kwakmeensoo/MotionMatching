@@ -1,6 +1,7 @@
 import glfw
 import numpy as np
 from camera import Camera, CameraMode
+from common import normalize
 
 class Controller:
     def __init__(self, window, camera: Camera):
@@ -25,6 +26,16 @@ class Controller:
         glfw.set_cursor_pos_callback(self.window, self.cursor_pos_callback)
         # 마우스 스크롤
         glfw.set_scroll_callback(self.window, self.scroll_callback)
+    
+    def get_movement_input(self):
+        x, z = 0.0, 0.0
+
+        if self.keys.get(glfw.KEY_UP): z -= 1.0
+        if self.keys.get(glfw.KEY_DOWN): z += 1.0
+        if self.keys.get(glfw.KEY_LEFT): x -= 1.0
+        if self.keys.get(glfw.KEY_RIGHT): x += 1.0
+
+        return normalize(np.array([x, 0, z]))
     
     def key_callback(self, window, key, scancode, action, mods):
         if action == glfw.PRESS:

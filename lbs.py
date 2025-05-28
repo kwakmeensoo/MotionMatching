@@ -1,5 +1,4 @@
 from common import *
-import glm
 import numpy as np
 
 def load_character(filename):

@@ -3,7 +3,7 @@ import moderngl as mgl
 from camera import Camera, CameraMode
 from control import Controller
 from engine import Engine
-from ui import UI
+# from ui import UI
 
 class Renderer():
     def __init__(self, width, height, title):
@@ -20,13 +20,14 @@ class Renderer():
             mode = CameraMode.ORBIT
         )
 
-        self.frame_time = 1 / 30
+        self.frame_time = 1 / 60
 
         self.controller = Controller(self.window, self.camera)
         
+        print('Initializing...')
         self.engine = Engine(self)
 
-        self.ui = UI(self.engine, self.controller)
+        # self.ui = UI(self.engine, self.controller)
 
     def _init_glfw(self, width, height, title, resizable = True, centered = True):
         if not glfw.init():
@@ -85,12 +86,12 @@ class Renderer():
                 self.controller.process_input(elapsed)
 
                 while lag >= self.frame_time:
-                    self.engine.update()
+                    self.engine.update(self.frame_time)
                     lag -= self.frame_time
                 
                 self.ctx.clear(*self.background_color)
                 self.engine.render()
-                self.ui.render()
+                # self.ui.render()
                 glfw.swap_buffers(self.window)
         finally:
             self.cleanup()
