@@ -185,6 +185,7 @@ class Engine:
 
         desired_velocity_curr = self.desired_velocity_update(
             movement_input,
+            self.camera.azimuth,
             self.simulation_rotation,
             simulation_fwrd_speed,
             simulation_side_speed,
@@ -381,6 +382,15 @@ class Engine:
         if self.character is not None:
             self.character.render()
     
+    def orbit_camera_future_azimuth(self, dt):
+        azimuth = self.camera.azimuth
+        dir1 = self.renderer.controller.is_key_pressed(glfw.KEY_A)
+        dir2 = self.renderer.controller.is_key_pressed(glfw.KEY_D)
+        direction = (1.0 if dir1 else 0) + (-1.0 if dir2 else 0)
+
+        return azimuth + direction * self.camera.speed * dt * 0.5
+
+
     def query_compute_trajectory_position_feature(self, query, offset, root_position, root_rotation, trajectory_positions):
         traj0 = quat.inv_mul_vec(root_rotation, trajectory_positions[1] - root_position)[[0, 2]]
         traj1 = quat.inv_mul_vec(root_rotation, trajectory_positions[2] - root_position)[[0, 2]]
@@ -405,8 +415,8 @@ class Engine:
             dt
         )
 
-    def desired_velocity_update(self, movement_input, simulation_rotation, fwrd_speed, side_speed, back_speed):
-        global_stick_direction = movement_input
+    def desired_velocity_update(self, movement_input, camera_azimuth, simulation_rotation, fwrd_speed, side_speed, back_speed):
+        global_stick_direction = quat.mul_vec(quat.from_angle_axis(camera_azimuth, np.array([0, 1, 0], dtype = np.float32)), movement_input)
         
         local_stick_direction = quat.inv_mul_vec(simulation_rotation, global_stick_direction)
 
@@ -451,22 +461,22 @@ class Engine:
         desired_velocities[0] = desired_velocity
         
         for i in range(1, desired_velocities.shape[0]):
-            # desired_velocities[i] = self.desired_velocity_update(
-            #     movement_input,
-            #     self.renderer.orbit_camera_update_azimuth(i * dt),
-            #     trajectory_rotations[i],
-            #     fwrd_speed,
-            #     side_speed,
-            #     back_speed
-            # )
-
             desired_velocities[i] = self.desired_velocity_update(
                 movement_input,
+                self.orbit_camera_future_azimuth(i * dt),
                 trajectory_rotations[i],
                 fwrd_speed,
                 side_speed,
                 back_speed
             )
+
+            # desired_velocities[i] = self.desired_velocity_update(
+            #     movement_input,
+            #     trajectory_rotations[i],
+            #     fwrd_speed,
+            #     side_speed,
+            #     back_speed
+            # )
     
     def trajectory_positions_predict(self, positions, velocities, accelerations, position, velocity, acceleration, desired_velocities, halflife, dt):
         positions[0] = position

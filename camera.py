@@ -40,11 +40,20 @@ class Camera:
         self.elevation = np.arcsin(direction.y / self.distance)
     
     def _update_from_orbit_params(self):
-        x = self.distance * np.cos(self.elevation) * np.cos(self.azimuth)
-        y = self.distance * np.sin(self.elevation)
-        z = self.distance * np.cos(self.elevation) * np.sin(self.azimuth)
+        # x = self.distance * np.cos(self.elevation) * np.cos(self.azimuth)
+        # y = self.distance * np.sin(self.elevation)
+        # z = self.distance * np.cos(self.elevation) * np.sin(self.azimuth)
 
-        self.position = self.target + glm.vec3(x, y, z)
+        # self.position = self.target + glm.vec3(x, y, z)
+
+        rotation_azimuth = glm.angleAxis(self.azimuth, glm.vec3(0, 1.0, 0))
+        offset = rotation_azimuth * glm.vec3(0, 0, self.distance)
+        axis = glm.normalize(glm.cross(offset, glm.vec3(0, 1, 0)))
+        rotation_altitude = glm.angleAxis(self.elevation, axis)
+
+        self.position = self.target + rotation_altitude * offset
+
+
     
     def _update_camera_vectors(self):
         # position, target을 바탕으로 front, right, up 계산
