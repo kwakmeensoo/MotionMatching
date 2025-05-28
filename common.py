@@ -5,16 +5,6 @@ LN2 = 0.69314718056
 
 # Utility Functions
 
-def batch_matmul(matrices, vectors):
-    """
-    배치 형태의 행렬곱 연산
-    matrices: [..., 3, 3] 형태의 배치 행렬
-    vectors: [..., 3] 형태의 배치 벡터
-    returns: [..., 3] 형태의 결과
-    """
-    return np.einsum('...ij,...j->...i', matrices, vectors)
-
-
 def length(x):
     return np.linalg.norm(x)
 
