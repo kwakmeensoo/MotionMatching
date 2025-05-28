@@ -1,3 +1,4 @@
+from common import *
 import glm
 import numpy as np
 
@@ -50,36 +51,3 @@ def quat_inv_mul_vec(q, x):
    q = np.asarray([1, -1, -1, -1], dtype = np.float32) * q
    t = 2.0 * _fast_cross(q[..., 1:], x)
    return x + q[..., 0][..., np.newaxis] * t + _fast_cross(q[..., 1:], t)
-
-
-def read_array_1d_vec2(f, dtype = np.float32):
-    size = np.fromfile(f, np.int32, 1)[0]
-    return np.fromfile(f, dtype, size * 2).reshape(-1, 2)
-
-def read_array_1d_vec3(f, dtype=np.float32):
-    size = np.fromfile(f, np.int32, 1)[0]
-    return np.fromfile(f, dtype, size * 3).reshape(-1, 3)
-
-def read_array_1d_quat(f, dtype = np.float32):
-    size = np.fromfile(f, np.int32, 1)[0]
-    return np.fromfile(f, dtype, size * 4).reshape(-1, 4)
-
-def read_array_1d(f, dtype = np.float32):
-    size = np.fromfile(f, np.int32, 1)[0]
-    return np.fromfile(f, dtype, size)
-
-def read_array_2d_vec2(f, dtype = np.float32):
-    shape = np.fromfile(f, np.int32, 2)
-    return np.fromfile(f, dtype, shape[0] * shape[1] * 2).reshape(shape[0], shape[1], 2)
-
-def read_array_2d_vec3(f, dtype = np.float32):
-    shape = np.fromfile(f, np.int32, 2)
-    return np.fromfile(f, dtype, shape[0] * shape[1] * 3).reshape(shape[0], shape[1], 3)
-
-def read_array_2d_quat(f, dtype = np.float32):
-    shape = np.fromfile(f, np.int32, 2)
-    return np.fromfile(f, dtype, shape[0] * shape[1] * 4).reshape(shape[0], shape[1], 4)
-
-def read_array_2d(f, dtype = np.float32):
-    shape = np.fromfile(f, np.int32, 2)
-    return np.fromfile(f, dtype, shape[0] * shape[1]).reshape(shape)
