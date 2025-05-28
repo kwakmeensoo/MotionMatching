@@ -46,14 +46,14 @@ class Controller:
         if key == glfw.KEY_ESCAPE and action == glfw.PRESS:
             glfw.set_window_should_close(window, True)
         
-        if key == glfw.KEY_R and action == glfw.PRESS:
-            self.camera.reset()
+        # if key == glfw.KEY_R and action == glfw.PRESS:
+        #     self.camera.reset()
         
-        if key == glfw.KEY_TAB and action == glfw.PRESS:
-            if self.camera.mode == CameraMode.FREE:
-                self.camera.set_mode(CameraMode.ORBIT)
-            else:
-                self.camera.set_mode(CameraMode.FREE)
+        # if key == glfw.KEY_TAB and action == glfw.PRESS:
+        #     if self.camera.mode == CameraMode.FREE:
+        #         self.camera.set_mode(CameraMode.ORBIT)
+        #     else:
+        #         self.camera.set_mode(CameraMode.FREE)
     
     def mouse_button_callback(self, window, button, action, mods):
         if self.camera.mode == CameraMode.FREE:
