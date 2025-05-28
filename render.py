@@ -13,7 +13,7 @@ class Renderer():
         self.background_color = (0.9, 0.9, 0.9)
 
         self.camera = Camera(
-            position = (0, 4, 5),
+            position = (0, 3, 5),
             target = (0, 0, 0),
             up = (0, 1, 0),
             aspect = width / height,

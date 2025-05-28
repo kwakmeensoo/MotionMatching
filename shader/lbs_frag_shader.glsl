@@ -14,7 +14,7 @@ uniform vec3 light_color = vec3(1.0, 1.0, 1.0);  // 기본 광원 색상
 uniform vec3 view_pos;  // 카메라 위치
 
 // 재질 속성
-uniform float ambient_strength = 0.4;
+uniform float ambient_strength = 0.6;
 uniform float specular_strength = 0.4;
 uniform float shininess = 32.0;
 
