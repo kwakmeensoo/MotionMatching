@@ -487,7 +487,7 @@ class Engine:
                 dt
             )
 
-    # dt를 배치화해서 입력하면 가능
+    # dt를 배치화해서 입력하면 배치 처리 가능
     def simulation_positions_update(self, position, velocity, acceleration, desired_velocity, halflife, dt):
         y = halflife_to_damping(halflife) / 2.0
         j0 = velocity - desired_velocity
