@@ -547,7 +547,7 @@ class Engine:
     def _init_simulation_trajectory_objects(self):
         self.simulation_trajectory_objects = []
         for i in range(4):
-            vertices, colors, normals, indices = create_sphere(radius = 0.1, color = (0.7, 0.1 + i * 0.2, 0.1))
+            vertices, colors, normals, indices = create_sphere(radius = 0.08 + 0.002 * i, color = (0.7, 0.1 + i * 0.2, 0.1))
             self.simulation_trajectory_objects.append(PhongObject(self.ctx, self.programs['phong'], vertices, colors, normals, indices))
 
     def _update_character(self):
